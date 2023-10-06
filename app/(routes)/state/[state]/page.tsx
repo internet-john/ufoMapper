@@ -12,10 +12,11 @@ const getSightings = (state: string) => {
 };
 
 const StatePage = ({ params }: { params: { state: string } }) => {
-  const data = getSightings(params.state);
+  const state = params.state.replaceAll(/%20/g, " ");
+  const data = getSightings(state);
   return (
     <div>
-      <h1>{params.state}</h1>
+      <h1>{state}</h1>
       <div>
         {data.map((sighting: UfoSighting) => (
           <div>{sighting.comments}</div>
