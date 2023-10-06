@@ -17,9 +17,13 @@ const StatePage = ({ params }: { params: { state: string } }) => {
   return (
     <div>
       <h1>{state}</h1>
-      <div>
+      <div className="grid">
         {data.map((sighting: UfoSighting) => (
-          <div>{sighting.comments}</div>
+          <div className="m-4 max-w-sm">
+            <p>{sighting.datetime}</p>
+            <p>{sighting.city}</p>
+            <p>{sighting.comments}</p>
+          </div>
         ))}
       </div>
     </div>
