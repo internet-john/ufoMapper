@@ -18,10 +18,10 @@ const StatePage = ({ params }: { params: { state: string } }) => {
   return (
     <div className="m-4">
       <header className="text-4xl mb-4">{state}</header>
-      <div className="grid grid-cols-3 gap-y-10">
+      <div className="block md:grid md:grid-cols-2 lg:grid-cols-3 gap-10">
         <Suspense fallback={<Loading />}>
           {data.map((sighting: UfoSighting) => (
-            <div className="max-w-sm">
+            <div className="border rounded-lg p-2">
               <p>{sighting.datetime}</p>
               <p>{sighting.city}</p>
               <p>{sighting.comments}</p>
