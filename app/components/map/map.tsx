@@ -1,32 +1,50 @@
 "use client";
 import { Loader } from "@googlemaps/js-api-loader";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
-const Map = () => {
+const Map = ({
+  state,
+  sightingsCoords,
+}: {
+  state: string;
+  sightingsCoords: Array<[String, String]>;
+}) => {
   const ref = useRef();
+  let map;
+  let geoCoder;
+  let center;
+  let coordsList = sightingsCoords.slice(0, 250);
 
-  const center = { lat: 37.7749, lng: -122.4194 };
   const zoom = 8;
 
   useEffect(() => {
     const loader = new Loader({
       apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     });
-
     loader.load().then(() => {
-      new window.google.maps.Map(ref.current, {
-        center,
+      geoCoder = new window.google.maps.Geocoder({
+        apiKey: process.env.NEXT_PUBLIC_GOOGLE_GEOCODE_API_KEY,
+      });
+      geoCoder.geocode({ address: state }, (results, status) => {
+        if (status === "OK") {
+          center = results[0]?.geometry.location;
+        }
+      });
+      map = new window.google.maps.Map(ref.current, {
+        center: center ?? sightingsCoords[0],
         zoom,
+      });
+      coordsList.forEach(({ lat, lng }) => {
+        new google.maps.Marker({
+          map,
+          position: { lat, lng },
+        });
       });
     });
   });
 
   return (
-    <div
-      id="map"
-      ref={ref}
-      style={{ width: "500px", height: "500px", position: "relative" }}
-    ></div>
+    <div className="m-4 h-screen w-auto relative" id="map" ref={ref}></div>
   );
 };
 
