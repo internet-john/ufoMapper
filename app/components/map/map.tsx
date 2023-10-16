@@ -2,7 +2,7 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import React, { useEffect, useMemo, useRef } from "react";
 
-const Map = ({
+const GoogleMap = ({
   state,
   sightingsCoords,
 }: {
@@ -48,4 +48,4 @@ const Map = ({
   );
 };
 
-export default Map;
+export default GoogleMap;
